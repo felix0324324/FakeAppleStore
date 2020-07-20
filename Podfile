@@ -6,5 +6,9 @@ target 'TestASKit' do
   use_frameworks!
 
   # Pods for TestASKit
-
+  pod 'AFNetworking'
+  pod 'JSONModel'
+  pod 'SDWebImage'
+  pod 'MJRefresh'
+  pod 'SnapKit'
 end

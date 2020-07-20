@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A3826B35242C676800C92C53"
-               BuildableName = "TestASKit.app"
+               BuildableName = "FakeAppleStore.app"
                BlueprintName = "TestASKit"
                ReferencedContainer = "container:TestASKit.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A3826B35242C676800C92C53"
-            BuildableName = "TestASKit.app"
+            BuildableName = "FakeAppleStore.app"
             BlueprintName = "TestASKit"
             ReferencedContainer = "container:TestASKit.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A3826B35242C676800C92C53"
-            BuildableName = "TestASKit.app"
+            BuildableName = "FakeAppleStore.app"
             BlueprintName = "TestASKit"
             ReferencedContainer = "container:TestASKit.xcodeproj">
          </BuildableReference>

@@ -277,7 +277,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         if (section == kTopGrossSection) {
             let aView = UIView()
-            // aView.backgroundColor = .red
+            aView.backgroundColor = .white
             let aLabel = UILabel()
             aLabel.numberOfLines = 0
             aLabel.font = UIFont.boldSystemFont(ofSize: 20)

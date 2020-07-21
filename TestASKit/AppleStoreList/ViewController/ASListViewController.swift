@@ -212,7 +212,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         var aCount = 0
         switch section {
         case kTopGrossSection:
-            aCount = 1
+            aCount = self.isFilterMode ? 0 : 1
         case kTopAppSection:
             aCount = self.isFilterMode ? self.myFilterEntryArray.count : self.myEntryArray.count
         default:

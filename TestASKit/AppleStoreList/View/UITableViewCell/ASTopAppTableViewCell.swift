@@ -14,7 +14,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     // MARK: - Constaint
     private static let kIconImageHeight: CGFloat = 60.0
     private static let kLabelMinHeight: CGFloat = 20.0
-    private static let kStarHeight: CGFloat = 14.0
+    private static let kStarHeight: CGFloat = 6.0
     private static let kTotalStar: Int = 5
     
     // MARK: - UI
@@ -59,7 +59,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     
     private func setupNumLabel() {
         self.myNumLabel.numberOfLines = 0
-        self.myNumLabel.textColor = UIColor.black
+        self.myNumLabel.textColor = UIColor.kGray2Color
         self.myNumLabel.textAlignment = .center
         // self.myNumLabel.backgroundColor = .blue
         self.contentView.addSubview(self.myNumLabel)
@@ -73,20 +73,23 @@ class ASTopAppTableViewCell: UITableViewCell {
     
     private func setupTitleLabel() {
         self.myTitleLabel.numberOfLines = 0
+        self.myTitleLabel.font = UIFont.systemFont(ofSize: 14)
         // self.myTitleLabel.backgroundColor = UIColor.kGrayColor
         self.contentView.addSubview(self.myTitleLabel)
     }
     
     private func setupSubTitleLabel() {
         self.mySubTitleLabel.numberOfLines = 0
+        self.mySubTitleLabel.font = UIFont.systemFont(ofSize: 10)
+        self.mySubTitleLabel.textColor = UIColor.kGray2Color
         // self.mySubTitleLabel.backgroundColor = UIColor.kGrayColor
         self.contentView.addSubview(self.mySubTitleLabel)
     }
     
     private func setupCommendLabel() {
         self.myCommendLabel.numberOfLines = 0
+        self.myCommendLabel.font = UIFont.systemFont(ofSize: 10)
         // self.myCommendLabel.backgroundColor = UIColor.kGrayColor
-        self.myCommendLabel.text = "(0)"
         self.contentView.addSubview(self.myCommendLabel)
     }
     
@@ -114,45 +117,47 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.myNumLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(0)
             make.width.equalTo(40)
-            make.top.bottom.equalToSuperview()
+            make.top.equalToSuperview().offset(20)
+            make.height.equalTo(Self.kIconImageHeight)
         }
 
         self.myIconImageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.myNumLabel.snp.right).offset(10)
             make.height.width.equalTo(Self.kIconImageHeight)
-            make.top.equalToSuperview().offset(10)
+            make.top.equalTo(self.myNumLabel.snp.top)
         }
         
         self.myTitleLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-10)
             make.left.equalTo(self.myIconImageView.snp.right).offset(10)
-            make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
-            make.top.equalToSuperview().offset(4)
+            // make.top.equalToSuperview().offset(4)
+            make.top.equalTo(self.myNumLabel.snp.top)
+            make.height.greaterThanOrEqualTo(0)
         }
 
         self.mySubTitleLabel.snp.makeConstraints { (make) in
             make.left.equalTo(self.myTitleLabel.snp.left)
-            make.top.equalTo(self.myTitleLabel.snp.bottom).offset(4)
+            make.top.equalTo(self.myTitleLabel.snp.bottom).offset(8)
             make.right.equalTo(self.myTitleLabel.snp.right)
-            make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
+            make.height.greaterThanOrEqualTo(0)
         }
         
         for (i, aView) in self.myStarView.enumerated() {
             aView.snp.makeConstraints { (make) in
                 make.left.equalTo(self.myIconImageView.snp.right).offset(10 + (i * Int(Self.kStarHeight + 4)))
                 make.height.width.equalTo(Self.kStarHeight)
-                make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(8)
+                make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(12)
             }
         }
 
         self.myCommendLabel.snp.makeConstraints { (make) in
             if let aView = self.myStarView.last {
                 make.left.equalTo(aView.snp.right).offset(4)
+                make.centerY.equalTo(aView.snp.centerY)
             }
-            make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(4)
             make.right.equalTo(self.myTitleLabel.snp.right)
             make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-20)
         }
         
         self.myUnderineView.snp.makeConstraints { (make) in

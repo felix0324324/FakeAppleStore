@@ -61,31 +61,31 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.myNumLabel.numberOfLines = 0
         self.myNumLabel.textColor = UIColor.black
         self.myNumLabel.textAlignment = .center
-        self.myNumLabel.backgroundColor = .blue
+        // self.myNumLabel.backgroundColor = .blue
         self.contentView.addSubview(self.myNumLabel)
     }
     
     private func setupIconImageView() {
-//        self.myIconImageView.backgroundColor = .green
+        //self.myIconImageView.backgroundColor = .green
         self.myIconImageView.contentMode = .scaleAspectFill
         self.contentView.addSubview(self.myIconImageView)
     }
     
     private func setupTitleLabel() {
         self.myTitleLabel.numberOfLines = 0
-        self.myTitleLabel.backgroundColor = UIColor.kGrayColor
+        // self.myTitleLabel.backgroundColor = UIColor.kGrayColor
         self.contentView.addSubview(self.myTitleLabel)
     }
     
     private func setupSubTitleLabel() {
         self.mySubTitleLabel.numberOfLines = 0
-        self.mySubTitleLabel.backgroundColor = UIColor.kGrayColor
+        // self.mySubTitleLabel.backgroundColor = UIColor.kGrayColor
         self.contentView.addSubview(self.mySubTitleLabel)
     }
     
     private func setupCommendLabel() {
-//        self.myCommendLabel.numberOfLines = 0
-        self.myCommendLabel.backgroundColor = UIColor.kGrayColor
+        self.myCommendLabel.numberOfLines = 0
+        // self.myCommendLabel.backgroundColor = UIColor.kGrayColor
         self.myCommendLabel.text = "(0)"
         self.contentView.addSubview(self.myCommendLabel)
     }
@@ -195,22 +195,22 @@ class ASTopAppTableViewCell: UITableViewCell {
     }
     
     func renewTitleLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewTitleLabel - \(String(describing: text))")
+        // print("ASTopAppTableViewCell renewTitleLabel - \(String(describing: text))")
         self.myTitleLabel.text = text
     }
     
     func renewSubTitleLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewSubTitleLabel - \(String(describing: text))")
+        // print("ASTopAppTableViewCell renewSubTitleLabel - \(String(describing: text))")
         self.mySubTitleLabel.text = text
     }
     
     func renewCommendLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewCommendLabel - \(String(describing: text))")
+        // print("ASTopAppTableViewCell renewCommendLabel - \(String(describing: text))")
         self.myCommendLabel.text = text
     }
     
     func renewStar(int: Int) {
-        print("ASTopAppTableViewCell renewStar - \(int)")
+        // print("ASTopAppTableViewCell renewStar - \(int)")
         var aMaxInt = int
         if int > Self.kTotalStar {
             aMaxInt = Self.kTotalStar

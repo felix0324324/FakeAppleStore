@@ -80,9 +80,10 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.myASListView.myTableView.reloadData()
     }
     
-    func loadMoreData() {
+    func loadMoreData(isLoadMore: Bool) {
         let aFrom = self.myPage * kDefaultPage
         let aTo = (self.myPage + 1) * kDefaultPage
+        var aNewCount = 0
         if aTo >= (self.myASListModel?.feed?.entry ?? []).count {
             self.myASListView.myTableView.mj_footer?.isHidden = true
             self.myASListView.myTableView.mj_footer?.endRefreshingWithNoMoreData()
@@ -93,9 +94,27 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         for (i, aEntry) in (self.myASListModel?.feed?.entry ?? []).enumerated() {
             if i >= aFrom && i < aTo {
                 self.myEntryArray.append(aEntry)
+                aNewCount += 1
             }
         }
         self.myPage += 1
+        
+        
+        if isLoadMore {
+            var aIndexArray: [IndexPath] = []
+            for aInt in (0..<aNewCount).reversed() {
+                let aNum = self.myEntryArray.count - aInt - 1
+                print("aaaa \(aNum)")
+                let aIndex = IndexPath(row: aNum, section: self.kTopAppSection)
+                aIndexArray.append(aIndex)
+            }
+            
+            self.myASListView.myTableView.beginUpdates()
+            self.myASListView.myTableView.insertRows(at: aIndexArray, with: .fade)
+            self.myASListView.myTableView.endUpdates()
+        } else {
+            self.myASListView.myTableView.reloadData()
+        }
     }
     
     func clearTimer() {
@@ -121,20 +140,18 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("ASListViewController headerRefresh")
         self.myPage = 0
         self.myEntryArray.removeAll()
-        self.loadMoreData()
-        Thread.sleep(forTimeInterval: 0.5)
+        Thread.sleep(forTimeInterval: 0.2)
+        self.loadMoreData(isLoadMore: false)
         let aTableView = self.myASListView.myTableView
-        self.reloadTable()
         aTableView.mj_header?.endRefreshing()
     }
     
     @objc func footerRefresh() {
         print("ASListViewController footerRefresh")
 
-        self.loadMoreData()
-        Thread.sleep(forTimeInterval: 0.5)
+        Thread.sleep(forTimeInterval: 0.2)
+        self.loadMoreData(isLoadMore: true)
         let aTableView = self.myASListView.myTableView
-        self.reloadTable()
         aTableView.mj_footer?.endRefreshing()
     }
     
@@ -247,6 +264,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("ASListViewController checkAPIAllSuccess - \(indexPath.section)-\(indexPath.row)")
         tableView.deselectRow(at: indexPath, animated: true)
         self.view.endEditing(true)
     }

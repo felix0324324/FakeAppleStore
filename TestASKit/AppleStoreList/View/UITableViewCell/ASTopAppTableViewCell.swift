@@ -14,6 +14,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     // MARK: - Constaint
     private static let kIconImageHeight: CGFloat = 60.0
     private static let kLabelMinHeight: CGFloat = 20.0
+    private static let kIconImageViewCornerRadius: CGFloat = 8.0
     private static let kStarHeight: CGFloat = 6.0
     private static let kTotalStar: Int = 5
     
@@ -22,9 +23,9 @@ class ASTopAppTableViewCell: UITableViewCell {
     var myIconImageView = UIImageView()
     var myTitleLabel = UILabel()
     var mySubTitleLabel = UILabel()
+    var myStarView : [UIView] = []
     var myCommendLabel = UILabel()
     var myUnderineView = UIView()
-    var myStarView : [UIView] = []
     
     // MARK: - Data
     
@@ -110,7 +111,6 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.myUnderineView)
     }
     
-    
     // MARK: - setupAutolayout
     func setupAutolayout() {
 
@@ -162,7 +162,7 @@ class ASTopAppTableViewCell: UITableViewCell {
         
         self.myUnderineView.snp.makeConstraints { (make) in
             make.height.equalTo(1)
-            make.left.right.bottom.equalToSuperview()
+            make.left.right.top.equalToSuperview()
         }
     }
     
@@ -173,7 +173,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     }
     
     func renewIconImage(isCircle: Bool) {
-        self.myIconImageView.layer.cornerRadius = isCircle ? Self.kIconImageHeight/2 : 8
+        self.myIconImageView.layer.cornerRadius = isCircle ? Self.kIconImageHeight/2 : Self.kIconImageViewCornerRadius
         self.myIconImageView.clipsToBounds = true
     }
     

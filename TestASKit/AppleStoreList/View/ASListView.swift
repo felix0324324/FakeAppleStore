@@ -53,7 +53,7 @@ class ASListView: UIView {
     func setupTableView() {
         // myTableView.backgroundColor = UIColor.brown
         self.myTableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
-        self.myTableView.register(ASBlankTableViewCell.self, forCellReuseIdentifier: ASBlankTableViewCell.className)
+        self.myTableView.register(ASCollectionTableViewCell.self, forCellReuseIdentifier: ASCollectionTableViewCell.className)
         self.myTableView.register(ASTopAppTableViewCell.self, forCellReuseIdentifier: ASTopAppTableViewCell.className)
         
         self.myTableView.keyboardDismissMode = .onDrag

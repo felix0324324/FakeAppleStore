@@ -202,7 +202,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     print("ASListViewController requestTopFreeAppDetails - i : \(i) aAPPID \(aAPPID)") // \(aASListModel?.kj.JSONString())")
                     self.checkAPIAllSuccess(row: i)
 
-                    
                     if i == self.kDefaultPage {
                         self.headerRefresh()
                     }
@@ -244,7 +243,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         var cell: UITableViewCell?
         switch indexPath.section {
             case kTopGrossSection:
-                if let aCell = tableView.dequeueReusableCell(withIdentifier: ASBlankTableViewCell.className, for: indexPath) as? ASBlankTableViewCell {
+                if let aCell = tableView.dequeueReusableCell(withIdentifier: ASCollectionTableViewCell.className, for: indexPath) as? ASCollectionTableViewCell {
                     cell = aCell
                 }
             case kTopAppSection:
@@ -273,9 +272,34 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return 2
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = section == kTopGrossSection ? "推介_" : ""
-        return title
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var headerView: UIView? = nil
+        
+        if (section == kTopGrossSection) {
+            let aView = UIView()
+            // aView.backgroundColor = .red
+            let aLabel = UILabel()
+            aLabel.numberOfLines = 0
+            aLabel.font = UIFont.boldSystemFont(ofSize: 20)
+            aLabel.text = "推介_"
+            aView.addSubview(aLabel)
+            
+            headerView = aView
+            
+            aLabel.snp.makeConstraints { (make) in
+                make.top.equalToSuperview().offset(10)
+                make.height.greaterThanOrEqualTo(0)
+                make.left.right.equalToSuperview().offset(20)
+                make.bottom.equalToSuperview().offset(-15)
+            }
+        }
+        return headerView
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == kTopGrossSection) {
+            return UITableView.automaticDimension
+        }
+        return 0.0001
+    }
 }

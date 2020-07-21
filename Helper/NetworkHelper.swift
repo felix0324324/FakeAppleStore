@@ -26,15 +26,6 @@ class API: NSObject {
 
 class NetworkingManager {
     
-    class func requestTopFreeApp(compBlock: @escaping ((ASListModel?) -> Void)) {
-        Self.request(url: API.TopFreeApp, method: .get, completion: { requestID, jsonDict  in
-            if let aASListModel = jsonDict?.kj.model(type: ASListModel.self) as? ASListModel {
-                compBlock(aASListModel)
-            } else {
-                compBlock(nil)
-            }
-        })
-    }
     
     class func requestTopFreeAppDetails(appID: String, compBlock: @escaping ((ASListDetailModel?) -> Void)) {
         let aURL = API.TopFreeAPPDetails + appID
@@ -47,8 +38,26 @@ class NetworkingManager {
         })
     }
     
-    // <T: ASListModel>
-    //<T: Convertible>
+    class func requestTopFreeApp(compBlock: @escaping ((ASListModel?) -> Void)) {
+        Self.request(url: API.TopFreeApp, method: .get, completion: { requestID, jsonDict  in
+            if let aASListModel = jsonDict?.kj.model(type: ASListModel.self) as? ASListModel {
+                compBlock(aASListModel)
+            } else {
+                compBlock(nil)
+            }
+        })
+    }
+    
+    class func requestTopGrossApp(compBlock: @escaping ((ASListModel?) -> Void)) {
+        Self.request(url: API.TopGrossAPP, method: .get, completion: { requestID, jsonDict  in
+            if let aASListModel = jsonDict?.kj.model(type: ASListModel.self) as? ASListModel {
+                compBlock(aASListModel)
+            } else {
+                compBlock(nil)
+            }
+        })
+    }
+    
     class func request(url: URLConvertible, method: HTTPMethod, parameters: Parameters = [:], encoding: ParameterEncoding = URLEncoding.default, completion: @escaping ((Int, [String: Any]?) -> Void)) {
         // let requestID = willRequest()
         AF.request(url, method: method,  parameters: parameters, encoding: encoding)

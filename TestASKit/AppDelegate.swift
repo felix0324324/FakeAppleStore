@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func setupWindow() {
-       self.window = UIWindow(frame: UIScreen.fullFrame)
+       self.window = UIWindow(frame: UIScreen.main.bounds)
        self.window!.backgroundColor = UIColor.white
        self.window!.rootViewController = MainViewController.init()
        self.window!.makeKeyAndVisible()

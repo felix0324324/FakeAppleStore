@@ -40,6 +40,8 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         myASListView = ASListView()
         self.myASListView.myTableView.delegate = self
         self.myASListView.myTableView.dataSource = self
+        self.myASListView.myTableView.estimatedRowHeight = 20
+        self.myASListView.myTableView.rowHeight = UITableView.automaticDimension
         self.view.addSubview(self.myASListView)
     }
     
@@ -92,9 +94,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
             case kTopAppSection:
                 if let aCell = tableView.dequeueReusableCell(withIdentifier: ASTopAppTableViewCell.className, for: indexPath) as? ASTopAppTableViewCell {
                     cell = aCell
-//                    if let aName = self.myASListModel?.feed?.entry?[indexPath.row].title {
-//                        // aCell.textLabel?.text = aName.label
-//                    }
                     if let aEntryModel = self.myASListModel?.feed?.entry?[indexPath.row] {
                         aCell.renewEntryModel(entryModel: aEntryModel)
                     }
@@ -105,14 +104,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
             default:
                 break
         }
-            
-//            aCell.contentView.snp.makeConstraints { make in
-//                make.top.equalToSuperview().offset(30)
-//                make.left.equalToSuperview().offset(10)
-//                make.height.equalTo(100)
-//                make.right.equalToSuperview().offset(-10)
-//            }
-
         return cell ?? UITableViewCell()
     }
 

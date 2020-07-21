@@ -13,6 +13,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     // MARK: - Constaint
     private static let kCellHeight: CGFloat = 80.0
     private static let kIconImageHeight: CGFloat = 60.0
+    private static let kLabelMinHeight: CGFloat = 20.0
     
     // MARK: - UI
     var myNumLabel = UILabel()
@@ -40,6 +41,9 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.setupSelf()
         self.setupNumLabel()
         self.setupIconImageView()
+        self.setupTitleLabel()
+        self.setupSubTitleLabel()
+        self.setupCommendLabel()
         self.setupUnderLineView()
         
         self.setupAutolayout()
@@ -50,6 +54,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     }
     
     private func setupNumLabel() {
+        self.myNumLabel.numberOfLines = 0
         self.myNumLabel.textColor = UIColor.black
         self.myNumLabel.textAlignment = .center
         self.myNumLabel.backgroundColor = .blue
@@ -57,9 +62,28 @@ class ASTopAppTableViewCell: UITableViewCell {
     }
     
     private func setupIconImageView() {
-        self.myIconImageView.backgroundColor = .green
+//        self.myIconImageView.backgroundColor = .green
         self.myIconImageView.contentMode = .scaleAspectFill
         self.contentView.addSubview(self.myIconImageView)
+    }
+    
+    private func setupTitleLabel() {
+        self.myTitleLabel.numberOfLines = 0
+        self.myTitleLabel.backgroundColor = UIColor.kGrayColor
+        self.contentView.addSubview(self.myTitleLabel)
+    }
+    
+    private func setupSubTitleLabel() {
+        self.mySubTitleLabel.numberOfLines = 0
+        self.mySubTitleLabel.backgroundColor = UIColor.kGrayColor
+        self.contentView.addSubview(self.mySubTitleLabel)
+    }
+    
+    private func setupCommendLabel() {
+//        self.myCommendLabel.numberOfLines = 0
+        self.myCommendLabel.backgroundColor = UIColor.kGrayColor
+        self.myCommendLabel.text = "(0)"
+        self.contentView.addSubview(self.myCommendLabel)
     }
     
     private func setupUnderLineView() {
@@ -67,25 +91,43 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.myUnderineView)
     }
     
+    
     // MARK: - setupAutolayout
     func setupAutolayout() {
-        self.contentView.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-            make.height.greaterThanOrEqualTo(Self.kCellHeight)
-        }
 
         self.myNumLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(0)
             make.width.equalTo(40)
             make.top.bottom.equalToSuperview()
         }
-        
+
         self.myIconImageView.snp.makeConstraints { (make) in
             make.left.equalTo(self.myNumLabel.snp.right).offset(10)
             make.height.width.equalTo(Self.kIconImageHeight)
             make.top.equalToSuperview().offset(10)
-            make.bottom.equalToSuperview().offset(-10)
-            // make.right.equalToSuperview().offset(0)
+        }
+        
+        
+        self.myTitleLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-10)
+            make.left.equalTo(self.myIconImageView.snp.right).offset(10)
+            make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
+            make.top.equalToSuperview().offset(4)
+        }
+
+        self.mySubTitleLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.myTitleLabel.snp.left)
+            make.top.equalTo(self.myTitleLabel.snp.bottom).offset(4)
+            make.right.equalTo(self.myTitleLabel.snp.right)
+            make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
+        }
+
+        self.myCommendLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(self.myTitleLabel.snp.left)
+            make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(4)
+            make.right.equalTo(self.myTitleLabel.snp.right)
+            make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
+            make.bottom.equalToSuperview()
         }
         
         self.myUnderineView.snp.makeConstraints { (make) in
@@ -96,7 +138,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     
     // MARK: - Renew
     func renewNumLabel(text: String) {
-        print("renewNumLabel - \(text)")
+        print("ASTopAppTableViewCell renewNumLabel - \(text)")
         self.myNumLabel.text = text
     }
     
@@ -107,11 +149,35 @@ class ASTopAppTableViewCell: UITableViewCell {
     
     func renewEntryModel(entryModel: Entry) {
         if let aURLString = entryModel.imImage?.last?.label, let aURL = URL.init(string: aURLString) {
-            SDWebImageDownloader.shared.downloadImage(with: aURL, completed: { (image, error, cacheType, imageURL) in
-                self.myIconImageView.image = image
-                self.layoutIfNeeded()
-            })
+            self.renewIconImageView(url: aURL)
         }
+        self.renewTitleLabel(text: entryModel.imName?.label)
+        self.renewSubTitleLabel(text: entryModel.category?.attributes?.label)
+        self.renewCommendLabel(text: "")
+        self.layoutIfNeeded()
+        self.contentView.layoutIfNeeded()
+    }
+    
+    func renewIconImageView(url: URL) {
+        SDWebImageDownloader.shared.downloadImage(with: url, completed: { (image, error, cacheType, imageURL) in
+            self.myIconImageView.image = image
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func renewTitleLabel(text: String? = "") {
+        print("ASTopAppTableViewCell renewTitleLabel - \(text)")
+        self.myTitleLabel.text = text
+    }
+    
+    func renewSubTitleLabel(text: String? = "") {
+        print("ASTopAppTableViewCell renewSubTitleLabel - \(text)")
+        self.mySubTitleLabel.text = text
+    }
+    
+    func renewCommendLabel(text: String? = "") {
+        print("ASTopAppTableViewCell renewCommendLabel - \(text)")
+        self.myCommendLabel.text = text
     }
 }
 

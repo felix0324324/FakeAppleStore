@@ -6,8 +6,10 @@ target 'TestASKit' do
   use_frameworks!
 
   # Pods for TestASKit
-  pod 'AFNetworking'
-  pod 'JSONModel'
+  # pod 'AFNetworking' <- For OC
+  # pod 'JSONModel' <- For OC
+  pod 'Alamofire'
+  pod 'KakaJSON'
   pod 'SDWebImage'
   pod 'MJRefresh'
   pod 'SnapKit'

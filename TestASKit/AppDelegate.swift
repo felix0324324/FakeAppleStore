@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  TestASKit
 //
-//  Created by Alvis on 26/3/2020.
+//  Created by Alvis on 21/7/2020.
 //  Copyright © 2020 Alvis. All rights reserved.
 //
 
@@ -28,13 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        self.window!.makeKeyAndVisible()
     }
     
-    func goToVC() {
-        let aMainViewController = MainViewController()
-        aMainViewController.view.backgroundColor = .purple
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            NavManager.getRootNav()?.pushViewController(aMainViewController, animated: false)
-        })
-    }
+//    func goToVC() {
+//        let aMainViewController = MainViewController()
+//        aMainViewController.view.backgroundColor = .purple
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+//            NavManager.getRootNav()?.pushViewController(aMainViewController, animated: false)
+//        })
+//    }
 }
 
 

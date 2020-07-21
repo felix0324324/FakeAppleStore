@@ -42,11 +42,11 @@ struct Entry: Convertible {
     var imPrice: IMPrice?
     var imContentType: IMContentType?
     var rights, title: Icon?
-//    var link: LinkUnion?
     var id: ID?
     var imArtist: IMArtist?
     var category: Category?
     var imReleaseDate: IMReleaseDate?
+    var asListDetailModel: ASListDetailModel?
 
     func kj_modelKey(from property: Property) -> ModelPropertyKey {
         // 根据属性名来返回对应的key

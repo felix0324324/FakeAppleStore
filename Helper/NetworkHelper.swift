@@ -36,6 +36,17 @@ class NetworkingManager {
         })
     }
     
+    class func requestTopFreeAppDetails(appID: String, compBlock: @escaping ((ASListDetailModel?) -> Void)) {
+        let aURL = API.TopFreeAPPDetails + appID
+        Self.request(url: aURL, method: .get, completion: { requestID, jsonDict  in
+            if let aASListModel = jsonDict?.kj.model(type: ASListDetailModel.self) as? ASListDetailModel {
+                compBlock(aASListModel)
+            } else {
+                compBlock(nil)
+            }
+        })
+    }
+    
     // <T: ASListModel>
     //<T: Convertible>
     class func request(url: URLConvertible, method: HTTPMethod, parameters: Parameters = [:], encoding: ParameterEncoding = URLEncoding.default, completion: @escaping ((Int, [String: Any]?) -> Void)) {

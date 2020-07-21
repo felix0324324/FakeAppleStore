@@ -178,8 +178,11 @@ class ASTopAppTableViewCell: UITableViewCell {
         }
         self.renewTitleLabel(text: entryModel.imName?.label)
         self.renewSubTitleLabel(text: entryModel.category?.attributes?.label)
-        self.renewStar(int: 3)
-        self.renewCommendLabel(text: "(123)")
+        let aStarFloat = entryModel.asListDetailModel?.results?.first?.averageUserRatingForCurrentVersion ?? 0
+        let aStarInt = Int(aStarFloat)
+        self.renewStar(int: aStarInt)
+        let aUserRatingCount = entryModel.asListDetailModel?.results?.first?.userRatingCount ?? 0
+        self.renewCommendLabel(text: "(\(aUserRatingCount))")
         self.layoutIfNeeded()
         self.contentView.layoutIfNeeded()
     }

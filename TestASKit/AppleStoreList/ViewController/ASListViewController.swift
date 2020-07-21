@@ -20,7 +20,8 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var myASListModel: ASListModel?
     
     // MARK: - Data
-    var myDataArray: [String] = ["123","321"]
+    // var myDataArray: [String] = ["123","321"]
+    var myAPICallCount: Int = 0
     
     
     // MARK: - LifeCycle
@@ -61,8 +62,35 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         NetworkingManager.requestTopFreeApp { aASListModel in
             self.myASListModel = aASListModel
             self.myASListView.myTableView.reloadData()
-            // print("MainViewController requestTopFreeApp - \(aASListModel?.kj.JSONString())")
+            self.callAPIRequestTopFreeAppDetails(aASListModel: aASListModel)
         }
+    }
+    
+    func callAPIRequestTopFreeAppDetails(aASListModel: ASListModel?) {
+        guard let _ = aASListModel else { return }
+        for (i, aEntry) in (aASListModel?.feed?.entry ?? []).enumerated() {
+            if let aAPPID = aEntry.id?.attributes?.imid {
+                NetworkingManager.requestTopFreeAppDetails(appID: aAPPID, compBlock: { aASListDetailModel in
+                    self.myASListModel?.feed?.entry?[i].asListDetailModel = aASListDetailModel
+                    self.myAPICallCount += 1
+                    print("ASListViewController requestTopFreeAppDetails - i : \(i) aAPPID \(aAPPID)") // \(aASListModel?.kj.JSONString())")
+                    self.checkAPIAllSuccess(row: i)
+                })
+            }
+        }
+    }
+        
+    func checkAPIAllSuccess(row: Int) {
+        let aIndexPath = IndexPath(row: row, section: self.kTopAppSection)
+        if let cell = self.myASListView.myTableView.cellForRow(at: aIndexPath) as? ASTopAppTableViewCell {
+            if let aEntry = self.myASListModel?.feed?.entry?[row] {
+                DispatchQueue.main.async {
+                    print("ASListViewController checkAPIAllSuccess \(row)")
+                    cell.renewEntryModel(entryModel: aEntry)
+                }
+            }
+        }
+        
     }
     
     // MARK: - Delegate

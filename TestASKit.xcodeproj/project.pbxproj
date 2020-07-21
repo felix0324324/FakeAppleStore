@@ -15,6 +15,7 @@
 		10A5EC5E24C682780021EF7F /* UIColorExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A5EC5D24C682780021EF7F /* UIColorExtenstion.swift */; };
 		10A5EC6024C689AA0021EF7F /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A5EC5F24C689AA0021EF7F /* UITableViewCellExtension.swift */; };
 		10AFC2A224C6977300522B89 /* ASTopAppTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AFC2A124C6977300522B89 /* ASTopAppTableViewCell.swift */; };
+		10AFC2A424C6D34A00522B89 /* ASListDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10AFC2A324C6D34A00522B89 /* ASListDetailModel.swift */; };
 		2D17C1C25EAF13852BBE876C /* Pods_TestASKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB9FEF096AE4B46578E4D37 /* Pods_TestASKit.framework */; };
 		A3826B3A242C676800C92C53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3826B39242C676800C92C53 /* AppDelegate.swift */; };
 		A3826B44242C676800C92C53 /* TestASKit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3826B42242C676800C92C53 /* TestASKit.xcdatamodeld */; };
@@ -34,6 +35,7 @@
 		10A5EC5D24C682780021EF7F /* UIColorExtenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtenstion.swift; sourceTree = "<group>"; };
 		10A5EC5F24C689AA0021EF7F /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
 		10AFC2A124C6977300522B89 /* ASTopAppTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASTopAppTableViewCell.swift; sourceTree = "<group>"; };
+		10AFC2A324C6D34A00522B89 /* ASListDetailModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASListDetailModel.swift; sourceTree = "<group>"; };
 		24889F303940328B4199EC7E /* Pods-TestASKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestASKit.debug.xcconfig"; path = "Target Support Files/Pods-TestASKit/Pods-TestASKit.debug.xcconfig"; sourceTree = "<group>"; };
 		6943E52DD4464BD2F05F52D1 /* Pods-TestASKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestASKit.release.xcconfig"; path = "Target Support Files/Pods-TestASKit/Pods-TestASKit.release.xcconfig"; sourceTree = "<group>"; };
 		8DB9FEF096AE4B46578E4D37 /* Pods_TestASKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestASKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +92,7 @@
 		107C1D0E24C5F7B500DB7BE8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				10AFC2A324C6D34A00522B89 /* ASListDetailModel.swift */,
 				107C1D0F24C5F7B500DB7BE8 /* ASListModel.swift */,
 			);
 			path = Model;
@@ -298,6 +301,7 @@
 				107C1D1424C5F7B500DB7BE8 /* ASListModel.swift in Sources */,
 				107C1D1624C5F7B500DB7BE8 /* ASListViewController.swift in Sources */,
 				101B9EE324C691180070B91D /* ASBlankTableViewCell.swift in Sources */,
+				10AFC2A424C6D34A00522B89 /* ASListDetailModel.swift in Sources */,
 				107C1D1524C5F7B500DB7BE8 /* ASListView.swift in Sources */,
 				A3826B44242C676800C92C53 /* TestASKit.xcdatamodeld in Sources */,
 				10A5EC6024C689AA0021EF7F /* UITableViewCellExtension.swift in Sources */,

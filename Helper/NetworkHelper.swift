@@ -3,7 +3,7 @@
 //  MapController
 //
 //  Created by Lloyd Fung on 30/1/2018.
-//  Copyright © 2018年 Centaline Property. All rights reserved.
+//  Copyright © 2018年  Property. All rights reserved.
 //
 
 import Alamofire

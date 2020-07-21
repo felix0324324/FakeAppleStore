@@ -3,7 +3,7 @@
 //  TestProj36-AsynDisplayKit
 //
 //  Created by Lloyd Fung on 25/4/2018.
-//  Copyright © 2018 Centaline. All rights reserved.
+//  Copyright © 2018 . All rights reserved.
 //
 
 import UIKit

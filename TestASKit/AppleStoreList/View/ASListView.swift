@@ -17,6 +17,8 @@ class ASListView: UIView {
     let myTableView: UITableView = UITableView()
     
     
+    
+    
     // MARK: - Init Function
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,8 +28,8 @@ class ASListView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.setup()
-        self.setupAutoLayout()
+//        self.setup()
+//        self.setupAutoLayout()
     }
     
     // MARK: - Setup
@@ -50,8 +52,15 @@ class ASListView: UIView {
     
     func setupTableView() {
         myTableView.backgroundColor = UIColor.brown
+        self.myTableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
+        self.myTableView.register(ASBlankTableViewCell.self, forCellReuseIdentifier: ASBlankTableViewCell.className)
+        self.myTableView.register(ASTopAppTableViewCell.self, forCellReuseIdentifier: ASTopAppTableViewCell.className)
+        
+        self.myTableView.keyboardDismissMode = .onDrag
+        self.myTableView.separatorStyle = .none
         self.addSubview(self.myTableView)
     }
+    
     // MARK: - setupAutoLayout
     func setupAutoLayout() {
         

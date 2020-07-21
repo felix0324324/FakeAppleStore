@@ -11,7 +11,7 @@ import UIKit
 class MainViewController: UIViewController {
 
     // MARK: - UI
-    var myASListViewController: ASListViewController! = nil
+    var myASListViewController: ASListViewController = ASListViewController()
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -26,15 +26,7 @@ class MainViewController: UIViewController {
     }
     
     func setupASListViewController() {
-        myASListViewController = ASListViewController.init()
         self.view.addSubview(self.myASListViewController.view)
-    }
-    
-    // MARK: - Call API
-    func callAPIRequestTopFreeApp(){
-        NetworkingManager.requestTopFreeApp { aModel in
-            print("MainViewController requestTopFreeApp - \(aModel?.kj.JSONString())")
-        }
     }
 }
 

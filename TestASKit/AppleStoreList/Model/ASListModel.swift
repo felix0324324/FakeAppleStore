@@ -42,23 +42,36 @@ struct Entry: Convertible {
     var imPrice: IMPrice?
     var imContentType: IMContentType?
     var rights, title: Icon?
-    // var link: LinkUnion?
+//    var link: LinkUnion?
     var id: ID?
     var imArtist: IMArtist?
     var category: Category?
     var imReleaseDate: IMReleaseDate?
 
-    enum CodingKeys: String, CodingKey {
-        case imName
-        case imImage
-        case summary
-        case imPrice
-        case imContentType
-        case rights, title, link, id
-        case imArtist
-        case category
-        case imReleaseDate
+    func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        // 根据属性名来返回对应的key
+        switch property.name {
+            case "imName": return "im:name"
+            case "imImage": return "im:image"
+            case "imPrice": return "im:price"
+            case "imContentType": return "im:contentType"
+            case "imArtist": return "im:artist"
+            case "imReleaseDate": return "im:releaseDate"
+            default: return property.name
+        }
     }
+    
+//    enum CodingKeys: String, CodingKey {
+//        case imName = "im:name"
+//        case imImage = "im:image"
+//        case summary
+//        case imPrice = "im:price"
+//        case imContentType = "im:contentType"
+//        case rights, title, link, id
+//        case imArtist = "im:artist"
+//        case category
+//        case imReleaseDate = "im:releaseDate"
+//    }
 }
 
 // MARK: - Category
@@ -71,11 +84,19 @@ struct CategoryAttributes: Convertible {
     var imid, term: String?
     var scheme: String?
     var label: String?
-
-    enum CodingKeys: String, CodingKey {
-        case imid
-        case term, scheme, label
+    
+    func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        // 根据属性名来返回对应的key
+        switch property.name {
+            case "imid": return "im:id"
+            default: return property.name
+        }
     }
+    
+//    enum CodingKeys: String, CodingKey {
+//        case imid = "im:id"
+//        case term, scheme, label
+//    }
 }
 
 // MARK: - ID
@@ -87,11 +108,20 @@ struct ID: Convertible {
 // MARK: - IDAttributes
 struct IDAttributes: Convertible {
     var imid, imBundleId: String?
-
-    enum CodingKeys: String, CodingKey {
-        case imid
-        case imBundleId
+    
+    func kj_modelKey(from property: Property) -> ModelPropertyKey {
+        // 根据属性名来返回对应的key
+        switch property.name {
+            case "imid": return "im:id"
+            case "imBundleId": return "im:bundleId"
+            default: return property.name
+        }
     }
+    
+//    enum CodingKeys: String, CodingKey {
+//        case imid = "im:id"
+//        case imBundleId = "im:bundleId"
+//    }
 }
 
 // MARK: - IMArtist
@@ -149,11 +179,11 @@ struct IMReleaseDate: Convertible {
 //
 //    init(from decoder: Decoder) throws {
 //        var container = try decoder.singleValueContainer()
-//        if var x = try? container.decode([PurpleLink].self) {
+//        if let x = try? container.decode([PurpleLink].self) {
 //            self = .purpleLinkArray(x)
 //            return
 //        }
-//        if var x = try? container.decode(FeedLink.self) {
+//        if let x = try? container.decode(FeedLink.self) {
 //            self = .feedLink(x)
 //            return
 //        }
@@ -163,9 +193,9 @@ struct IMReleaseDate: Convertible {
 //    func encode(to encoder: Encoder) throws {
 //        var container = encoder.singleValueContainer()
 //        switch self {
-//        case .feedLink(var x):
+//        case .feedLink(let x):
 //            try container.encode(x)
-//        case .purpleLinkArray(var x):
+//        case .purpleLinkArray(let x):
 //            try container.encode(x)
 //        }
 //    }
@@ -178,7 +208,7 @@ struct PurpleLink: Convertible {
 
     enum CodingKeys: String, CodingKey {
         case attributes
-        case imDuration
+        case imDuration = "im:duration"
     }
 }
 
@@ -190,7 +220,7 @@ struct PurpleAttributes: Convertible {
 
     enum CodingKeys: String, CodingKey {
         case rel, type, href, title
-        case imAssetType
+        case imAssetType = "im:assetType"
     }
 }
 

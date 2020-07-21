@@ -16,16 +16,20 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let kTopGrossSection: Int = 0
     let kTopAppSection: Int = 1
     let kDefaultPage: Int = 10
+    let kDefaultTimeInterval: TimeInterval = 0.5
     
     // MARK: - UI
     var myASListView: ASListView = ASListView()
+    let myHeader = MJRefreshNormalHeader()
+    let myFooter = MJRefreshAutoNormalFooter()
     
     // MARK: - Data
     var myASListModel: ASListModel?
     var myPage: Int = 0
     var myEntryArray: [Entry] = []
-    let myHeader = MJRefreshNormalHeader()
-    let myFooter = MJRefreshAutoNormalFooter()
+    var isFilterMode = false
+    var myFilterEntryArray: [Entry] = []
+    var myTimer : Timer?
     
     
     // MARK: - LifeCycle
@@ -39,12 +43,18 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func setup() {
         self.setupASListView()
+        self.setupTextField()
         self.setupTableView()
     }
     
     func setupASListView() {
         myASListView = ASListView()
         self.view.addSubview(self.myASListView)
+    }
+    
+    func setupTextField() {
+//        self.myASListView.myTextField.delegate = self
+        self.myASListView.myTextField.addTarget(self, action: #selector(textFieldDidChange(textField:)), for: .editingChanged)
     }
     
     func setupTableView() {
@@ -88,6 +98,23 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.myPage += 1
     }
     
+    func clearTimer() {
+        if let aTimer = self.myTimer {
+            aTimer.invalidate()
+            self.myTimer = nil
+        }
+    }
+    
+    func startTimer() {
+        self.clearTimer()
+        self.myTimer = Timer.scheduledTimer(timeInterval: self.kDefaultTimeInterval,
+                                            target:self,
+                                            selector:#selector(self.textFieldSearch),
+                                            userInfo:nil,
+                                            repeats:false)
+    }
+    
+    
     // MARK: - Button Event
     
     @objc func headerRefresh() {
@@ -109,6 +136,29 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let aTableView = self.myASListView.myTableView
         self.reloadTable()
         aTableView.mj_footer?.endRefreshing()
+    }
+    
+    @objc func textFieldDidChange(textField: UITextField){
+        print("ASListViewController textFieldDidChange - text : \(String(describing: textField.text))")
+        self.startTimer()
+        self.isFilterMode = textField.text != ""
+    }
+    
+    @objc func textFieldSearch() {
+        print("ASListViewController textFieldSearch - text : \(String(describing: self.myASListView.myTextField.text))")
+        self.myFilterEntryArray.removeAll()
+        if self.isFilterMode {
+            // app name, category, author or summary contains the keyword
+            for (i, aEntry) in self.myEntryArray.enumerated() {
+                let aLowerCaseText = self.myASListView.myTextField.text ?? ""
+                let hvName = aEntry.imName?.label?.contains(aLowerCaseText) ?? false
+                let hvCategory = aEntry.category?.attributes?.label?.contains(aLowerCaseText) ?? false
+                if hvName || hvCategory {
+                    self.myFilterEntryArray.append(aEntry)
+                }
+            }
+        }
+        self.reloadTable()
     }
     
     // MARK: - Call API
@@ -152,7 +202,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
         }
-        
     }
     
     // MARK: - Delegate
@@ -164,7 +213,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         case kTopGrossSection:
             aCount = 1
         case kTopAppSection:
-            aCount = self.myEntryArray.count
+            aCount = self.isFilterMode ? self.myFilterEntryArray.count : self.myEntryArray.count
         default:
             break
         }
@@ -182,7 +231,8 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
             case kTopAppSection:
                 if let aCell = tableView.dequeueReusableCell(withIdentifier: ASTopAppTableViewCell.className, for: indexPath) as? ASTopAppTableViewCell {
                     cell = aCell
-                    let aEntryModel = self.myEntryArray[indexPath.row]
+                    let aArray = self.isFilterMode ? self.myFilterEntryArray : self.myEntryArray
+                    let aEntryModel = aArray[indexPath.row]
                     aCell.renewEntryModel(entryModel: aEntryModel)
                     let isSquare = indexPath.row%2 == 0
                     aCell.renewNumLabel(text: String(indexPath.row + 1))

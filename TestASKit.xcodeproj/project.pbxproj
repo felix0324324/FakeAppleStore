@@ -11,6 +11,7 @@
 		107C1D1424C5F7B500DB7BE8 /* ASListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1D0F24C5F7B500DB7BE8 /* ASListModel.swift */; };
 		107C1D1524C5F7B500DB7BE8 /* ASListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1D1124C5F7B500DB7BE8 /* ASListView.swift */; };
 		107C1D1624C5F7B500DB7BE8 /* ASListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 107C1D1324C5F7B500DB7BE8 /* ASListViewController.swift */; };
+		10A5EC5E24C682780021EF7F /* UIColorExtenstion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A5EC5D24C682780021EF7F /* UIColorExtenstion.swift */; };
 		2D17C1C25EAF13852BBE876C /* Pods_TestASKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB9FEF096AE4B46578E4D37 /* Pods_TestASKit.framework */; };
 		A3826B3A242C676800C92C53 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3826B39242C676800C92C53 /* AppDelegate.swift */; };
 		A3826B44242C676800C92C53 /* TestASKit.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A3826B42242C676800C92C53 /* TestASKit.xcdatamodeld */; };
@@ -26,6 +27,7 @@
 		107C1D0F24C5F7B500DB7BE8 /* ASListModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASListModel.swift; sourceTree = "<group>"; };
 		107C1D1124C5F7B500DB7BE8 /* ASListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASListView.swift; sourceTree = "<group>"; };
 		107C1D1324C5F7B500DB7BE8 /* ASListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ASListViewController.swift; sourceTree = "<group>"; };
+		10A5EC5D24C682780021EF7F /* UIColorExtenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtenstion.swift; sourceTree = "<group>"; };
 		24889F303940328B4199EC7E /* Pods-TestASKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestASKit.debug.xcconfig"; path = "Target Support Files/Pods-TestASKit/Pods-TestASKit.debug.xcconfig"; sourceTree = "<group>"; };
 		6943E52DD4464BD2F05F52D1 /* Pods-TestASKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestASKit.release.xcconfig"; path = "Target Support Files/Pods-TestASKit/Pods-TestASKit.release.xcconfig"; sourceTree = "<group>"; };
 		8DB9FEF096AE4B46578E4D37 /* Pods_TestASKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestASKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				A3826B59242C6F6200C92C53 /* UIScreenExtensions.swift */,
+				10A5EC5D24C682780021EF7F /* UIColorExtenstion.swift */,
 				A3826B58242C6F6200C92C53 /* UIWindowExtension.swift */,
 			);
 			path = Extension;
@@ -270,6 +273,7 @@
 			files = (
 				A3826B5B242C6F6200C92C53 /* UIScreenExtensions.swift in Sources */,
 				A3826B5D242C938200C92C53 /* MainViewController.swift in Sources */,
+				10A5EC5E24C682780021EF7F /* UIColorExtenstion.swift in Sources */,
 				A3826B5A242C6F6200C92C53 /* UIWindowExtension.swift in Sources */,
 				A3826B3A242C676800C92C53 /* AppDelegate.swift in Sources */,
 				107C1D0C24C5F3CA00DB7BE8 /* NetworkHelper.swift in Sources */,

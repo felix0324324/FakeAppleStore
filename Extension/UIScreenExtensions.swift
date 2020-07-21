@@ -46,6 +46,4 @@ extension UIScreen {
         aFrame.size.height = self.height - self.topHeight
         return aFrame
     }
-    
-    
 }

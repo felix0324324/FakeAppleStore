@@ -28,12 +28,10 @@ class ASListViewController: UIViewController {
     
     func setupASListView() {
         myASListView = ASListView()
-        self.myASListView.backgroundColor = .red
         self.view.addSubview(self.myASListView)
         
         self.myASListView.snp.makeConstraints { make in
-            make.left.top.equalToSuperview().offset(10)
-            make.right.bottom.equalToSuperview().offset(-10)
+            make.left.top.right.bottom.equalToSuperview()
         }
     }
 }

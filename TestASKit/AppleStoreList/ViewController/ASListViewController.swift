@@ -142,6 +142,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         print("ASListViewController textFieldDidChange - text : \(String(describing: textField.text))")
         self.startTimer()
         self.isFilterMode = textField.text != ""
+        self.myASListView.myTableView.mj_footer?.isHidden = self.isFilterMode
     }
     
     @objc func textFieldSearch() {
@@ -150,10 +151,10 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         if self.isFilterMode {
             // app name, category, author or summary contains the keyword
             for (_ , aEntry) in self.myEntryArray.enumerated() {
-                let aLowerCaseText = self.myASListView.myTextField.text ?? ""
-                let hvName = aEntry.imName?.label?.contains(aLowerCaseText) ?? false
-                let hvCategory = aEntry.category?.attributes?.label?.contains(aLowerCaseText) ?? false
-                let hvSummary = aEntry.summary?.label?.contains(aLowerCaseText) ?? false
+                let aLowerCaseText = (self.myASListView.myTextField.text ?? "").lowercased()
+                let hvName = aEntry.imName?.label?.lowercased().contains(aLowerCaseText) ?? false
+                let hvCategory = aEntry.category?.attributes?.label?.lowercased().contains(aLowerCaseText) ?? false
+                let hvSummary = aEntry.summary?.label?.lowercased().contains(aLowerCaseText) ?? false
                 if hvName || hvCategory || hvSummary {
                     self.myFilterEntryArray.append(aEntry)
                 }

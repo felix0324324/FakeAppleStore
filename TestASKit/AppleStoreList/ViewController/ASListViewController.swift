@@ -149,11 +149,12 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.myFilterEntryArray.removeAll()
         if self.isFilterMode {
             // app name, category, author or summary contains the keyword
-            for (i, aEntry) in self.myEntryArray.enumerated() {
+            for (_ , aEntry) in self.myEntryArray.enumerated() {
                 let aLowerCaseText = self.myASListView.myTextField.text ?? ""
                 let hvName = aEntry.imName?.label?.contains(aLowerCaseText) ?? false
                 let hvCategory = aEntry.category?.attributes?.label?.contains(aLowerCaseText) ?? false
-                if hvName || hvCategory {
+                let hvSummary = aEntry.summary?.label?.contains(aLowerCaseText) ?? false
+                if hvName || hvCategory || hvSummary {
                     self.myFilterEntryArray.append(aEntry)
                 }
             }
@@ -254,7 +255,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let title = section == kTopGrossSection ? "推介_" : "Top100_"
+        let title = section == kTopGrossSection ? "推介_" : ""
         return title
     }
     

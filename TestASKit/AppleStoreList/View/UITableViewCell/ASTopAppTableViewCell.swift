@@ -10,10 +10,12 @@ import SnapKit
 import SDWebImage
 
 class ASTopAppTableViewCell: UITableViewCell {
+    
     // MARK: - Constaint
-    private static let kCellHeight: CGFloat = 80.0
     private static let kIconImageHeight: CGFloat = 60.0
     private static let kLabelMinHeight: CGFloat = 20.0
+    private static let kStarHeight: CGFloat = 14.0
+    private static let kTotalStar: Int = 5
     
     // MARK: - UI
     var myNumLabel = UILabel()
@@ -22,6 +24,7 @@ class ASTopAppTableViewCell: UITableViewCell {
     var mySubTitleLabel = UILabel()
     var myCommendLabel = UILabel()
     var myUnderineView = UIView()
+    var myStarView : [UIView] = []
     
     // MARK: - Data
     
@@ -44,6 +47,7 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.setupTitleLabel()
         self.setupSubTitleLabel()
         self.setupCommendLabel()
+        self.setupStarView()
         self.setupUnderLineView()
         
         self.setupAutolayout()
@@ -86,6 +90,18 @@ class ASTopAppTableViewCell: UITableViewCell {
         self.contentView.addSubview(self.myCommendLabel)
     }
     
+    private func setupStarView() {
+        self.myStarView.removeAll()
+        for _ in 0...(Self.kTotalStar - 1) {
+            let aView = UIView.init()
+            aView.backgroundColor = .kStarColor
+            aView.layer.borderWidth = 1
+            aView.layer.borderColor = UIColor.kStarColor.cgColor
+            self.myStarView.append(aView)
+            self.contentView.addSubview(aView)
+        }
+    }
+    
     private func setupUnderLineView() {
         self.myUnderineView.backgroundColor = UIColor.kGrayColor
         self.contentView.addSubview(self.myUnderineView)
@@ -107,7 +123,6 @@ class ASTopAppTableViewCell: UITableViewCell {
             make.top.equalToSuperview().offset(10)
         }
         
-        
         self.myTitleLabel.snp.makeConstraints { (make) in
             make.right.equalToSuperview().offset(-10)
             make.left.equalTo(self.myIconImageView.snp.right).offset(10)
@@ -121,9 +136,19 @@ class ASTopAppTableViewCell: UITableViewCell {
             make.right.equalTo(self.myTitleLabel.snp.right)
             make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
         }
+        
+        for (i, aView) in self.myStarView.enumerated() {
+            aView.snp.makeConstraints { (make) in
+                make.left.equalTo(self.myIconImageView.snp.right).offset(10 + (i * Int(Self.kStarHeight + 4)))
+                make.height.width.equalTo(Self.kStarHeight)
+                make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(8)
+            }
+        }
 
         self.myCommendLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(self.myTitleLabel.snp.left)
+            if let aView = self.myStarView.last {
+                make.left.equalTo(aView.snp.right).offset(4)
+            }
             make.top.equalTo(self.mySubTitleLabel.snp.bottom).offset(4)
             make.right.equalTo(self.myTitleLabel.snp.right)
             make.height.greaterThanOrEqualTo(Self.kLabelMinHeight)
@@ -153,7 +178,8 @@ class ASTopAppTableViewCell: UITableViewCell {
         }
         self.renewTitleLabel(text: entryModel.imName?.label)
         self.renewSubTitleLabel(text: entryModel.category?.attributes?.label)
-        self.renewCommendLabel(text: "")
+        self.renewStar(int: 3)
+        self.renewCommendLabel(text: "(123)")
         self.layoutIfNeeded()
         self.contentView.layoutIfNeeded()
     }
@@ -166,88 +192,29 @@ class ASTopAppTableViewCell: UITableViewCell {
     }
     
     func renewTitleLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewTitleLabel - \(text)")
+        print("ASTopAppTableViewCell renewTitleLabel - \(String(describing: text))")
         self.myTitleLabel.text = text
     }
     
     func renewSubTitleLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewSubTitleLabel - \(text)")
+        print("ASTopAppTableViewCell renewSubTitleLabel - \(String(describing: text))")
         self.mySubTitleLabel.text = text
     }
     
     func renewCommendLabel(text: String? = "") {
-        print("ASTopAppTableViewCell renewCommendLabel - \(text)")
+        print("ASTopAppTableViewCell renewCommendLabel - \(String(describing: text))")
         self.myCommendLabel.text = text
     }
+    
+    func renewStar(int: Int) {
+        print("ASTopAppTableViewCell renewStar - \(int)")
+        var aMaxInt = int
+        if int > Self.kTotalStar {
+            aMaxInt = Self.kTotalStar
+        }
+        
+        for (i, aView) in self.myStarView.enumerated() {
+            aView.backgroundColor = i < aMaxInt ? UIColor.kStarColor : UIColor.white
+        }
+    }
 }
-
-//extension AIChatCarouselCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return self.myCarouselModelArray.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: Self.kCollectionCellWidth, height: collectionView.height)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        var aCell: AIChatCarouselBaseCollectionCell?
-//
-//        if let data: CarouselModel = self.myCarouselModelArray[safe: indexPath.item] {
-//            switch data {
-//            case is CarouselPostModel:
-//                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AIChatCarouselPostCollectionCell.className, for: indexPath) as? AIChatCarouselPostCollectionCell {
-//                    aCell = cell
-//                }
-//            case is CarouselNewPropertyModel:
-//                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AIChatCarouselNewPropertyCollectionCell.className, for: indexPath) as? AIChatCarouselNewPropertyCollectionCell {
-//                    aCell = cell
-//                }
-//            case is CarouselEstateModel:
-//                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AIChatCarouselEstateCollectionCell.className, for: indexPath) as? AIChatCarouselEstateCollectionCell {
-//                    aCell = cell
-//                }
-//            case is CarouselBranchModel:
-//                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AIChatCarouselBranchCollectionCell.className, for: indexPath) as? AIChatCarouselBranchCollectionCell {
-//                    if cell.delegate == nil {
-//                        cell.delegate = self
-//                    }
-//                    aCell = cell
-//                }
-//            case is CarouselSearchMoreModel:
-//                if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AIChatCarouselSearchMoreCollectionCell.className, for: indexPath) as? AIChatCarouselSearchMoreCollectionCell {
-//                    aCell = cell
-//                }
-//            default:
-//                break
-//            }
-//
-//            aCell?.renewData(carouselModel: data)
-//        }
-//
-//        return aCell ?? collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.className, for: indexPath)
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if let data: CarouselModel = self.myCarouselModelArray[safe: indexPath.item],
-//            let collectionCell: AIChatCarouselBaseCollectionCell = collectionView.cellForItem(at: indexPath) as? AIChatCarouselBaseCollectionCell {
-//            self.delegate?.carouselCell(self, collectionCell: collectionCell, didSelectCarousel: data)
-//        }
-//    }
-//}
-//
-//extension AIChatCarouselCell: AIChatCarouselBranchCollectionCellDelegate {
-//    func phoneBtnPress(collectionCell: AIChatCarouselBranchCollectionCell) {
-//        if let aIndexPath: IndexPath = self.myCollectionView.indexPath(for: collectionCell),
-//            let model:CarouselBranchModel = myCarouselModelArray[safe: aIndexPath.item] as? CarouselBranchModel {
-//            delegate?.carouselCell(self, collectionCell: collectionCell, didPressPhone: model)
-//        }
-//    }
-//
-//    func mapBtnPress(collectionCell: AIChatCarouselBranchCollectionCell) {
-//        if let aIndexPath: IndexPath = self.myCollectionView.indexPath(for: collectionCell),
-//            let model:CarouselBranchModel = myCarouselModelArray[safe: aIndexPath.item] as? CarouselBranchModel {
-//            delegate?.carouselCell(self, collectionCell: collectionCell, didPressMap: model)
-//        }
-//    }
-//}

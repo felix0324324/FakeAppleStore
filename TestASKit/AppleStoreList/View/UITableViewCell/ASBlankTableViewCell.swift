@@ -44,7 +44,7 @@ class ASBlankTableViewCell: UITableViewCell {
     
     private func setupSelf() {
         self.selectionStyle = .none
-        self.contentView.backgroundColor = .red
+        // self.contentView.backgroundColor = .red
     }
 //
 //    private func setupCollectionView() {

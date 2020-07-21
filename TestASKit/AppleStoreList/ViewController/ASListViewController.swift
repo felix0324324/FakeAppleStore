@@ -70,31 +70,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.myASListView.myTableView.reloadData()
     }
     
-    // MARK: - Button Event
-    
-    @objc func headerRefresh() {
-        print("ASListViewController headerRefresh")
-        self.myPage = 0
-        self.myEntryArray.removeAll()
-        self.loadMoreData()
-        self.myPage += 1
-        Thread.sleep(forTimeInterval: 1)
-        let aTableView = self.myASListView.myTableView
-        self.reloadTable()
-        aTableView.mj_header?.endRefreshing()
-    }
-    
-    @objc func footerRefresh() {
-        print("ASListViewController footerRefresh")
-
-        self.loadMoreData()
-        self.myPage += 1
-        Thread.sleep(forTimeInterval: 0.5)
-        let aTableView = self.myASListView.myTableView
-        self.reloadTable()
-        aTableView.mj_footer?.endRefreshing()
-    }
-    
     func loadMoreData() {
         let aFrom = self.myPage * kDefaultPage
         let aTo = (self.myPage + 1) * kDefaultPage
@@ -110,6 +85,30 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 self.myEntryArray.append(aEntry)
             }
         }
+        self.myPage += 1
+    }
+    
+    // MARK: - Button Event
+    
+    @objc func headerRefresh() {
+        print("ASListViewController headerRefresh")
+        self.myPage = 0
+        self.myEntryArray.removeAll()
+        self.loadMoreData()
+        Thread.sleep(forTimeInterval: 0.5)
+        let aTableView = self.myASListView.myTableView
+        self.reloadTable()
+        aTableView.mj_header?.endRefreshing()
+    }
+    
+    @objc func footerRefresh() {
+        print("ASListViewController footerRefresh")
+
+        self.loadMoreData()
+        Thread.sleep(forTimeInterval: 0.5)
+        let aTableView = self.myASListView.myTableView
+        self.reloadTable()
+        aTableView.mj_footer?.endRefreshing()
     }
     
     // MARK: - Call API
@@ -122,7 +121,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
             self.myASListModel = aASListModel
             self.reloadTable()
             self.callAPIRequestTopFreeAppDetails(aASListModel: aASListModel)
-            self.footerRefresh()
         }
     }
     
@@ -134,6 +132,11 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myASListModel?.feed?.entry?[i].asListDetailModel = aASListDetailModel
                     print("ASListViewController requestTopFreeAppDetails - i : \(i) aAPPID \(aAPPID)") // \(aASListModel?.kj.JSONString())")
                     self.checkAPIAllSuccess(row: i)
+
+                    
+                    if i == self.kDefaultPage {
+                        self.headerRefresh()
+                    }
                 })
             }
         }

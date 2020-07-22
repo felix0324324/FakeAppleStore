@@ -24,12 +24,12 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let myFooter = MJRefreshAutoNormalFooter()
     
     // MARK: - Data
+    // var myLastOffset: CGPoint = .zero
     var myASListModel: ASListModel?
     var myPage: Int = 0
     var myEntryArray: [Entry] = []
     var myFilterEntryArray: [Entry] = []
     var myTimer: Timer?
-    var myLastOffset: CGPoint = .zero
     var isFilterMode = false
     var isLoadingMore = false
     
@@ -192,21 +192,27 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
             }
             
-            if self.myLastOffset == .zero {
-                self.myLastOffset = self.myASListView.myTableView.contentOffset
-            }
+//            if self.myLastOffset == .zero {
+//                self.myLastOffset = self.myASListView.myTableView.contentOffset
+//                print("ASListViewController textFieldSearch - Case 1 : \(self.myLastOffset)")
+//            }
         }
-        
             
         self.reloadTable()
         
         // Move Offset
-        if self.isFilterMode {
-            self.myASListView.myTableView.setContentOffset(.zero, animated: false)
-        } else {
-            self.myASListView.myTableView.setContentOffset(self.myLastOffset, animated: false)
-            self.myLastOffset = .zero
-        }
+//        Bugs at reload
+//        DispatchQueue.main.asyncAfter(deadline: .now() ) {
+//            self.myASListView.myTableView.layoutIfNeeded()
+//            if self.isFilterMode {
+//                self.myASListView.myTableView.setContentOffset(.zero, animated: false)
+//                print("ASListViewController textFieldSearch - Case 2 : \(self.myLastOffset) ")
+//            } else {
+//                self.myASListView.myTableView.setContentOffset(self.myLastOffset, animated: false)
+//                self.myLastOffset = .zero
+//                print("ASListViewController textFieldSearch - Case 3 : \(self.myLastOffset) ")
+//            }
+//        }
     }
     
     // MARK: - Call API
@@ -326,7 +332,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == kTopGrossSection) {
+        if (section == kTopGrossSection && !self.isFilterMode) {
             return UITableView.automaticDimension
         }
         return 0.0001

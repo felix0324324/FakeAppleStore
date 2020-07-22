@@ -16,7 +16,7 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     let kTopGrossSection: Int = 0
     let kTopAppSection: Int = 1
     let kDefaultPage: Int = 10
-    let kDefaultTimeInterval: TimeInterval = 0.5
+    let kDefaultTimeInterval: TimeInterval = 0.2
     
     // MARK: - UI
     var myASListView: ASListView = ASListView()
@@ -27,9 +27,11 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var myASListModel: ASListModel?
     var myPage: Int = 0
     var myEntryArray: [Entry] = []
-    var isFilterMode = false
     var myFilterEntryArray: [Entry] = []
-    var myTimer : Timer?
+    var myTimer: Timer?
+    var myLastOffset: CGPoint = .zero
+    var isFilterMode = false
+    var isLoadingMore = false
     
     
     // MARK: - LifeCycle
@@ -81,9 +83,17 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func loadMoreData(isLoadMore: Bool) {
+        
+        guard self.isLoadingMore != true else { return }
+        
+        if (!isLoadingMore) {
+            isLoadingMore = true
+        }
+        
         let aFrom = self.myPage * kDefaultPage
         let aTo = (self.myPage + 1) * kDefaultPage
         var aNewCount = 0
+        print("ASListViewController loadMoreData - case 1 before myEntryArray : \(self.myEntryArray.count) ")
         if aTo >= (self.myASListModel?.feed?.entry ?? []).count {
             self.myASListView.myTableView.mj_footer?.isHidden = true
             self.myASListView.myTableView.mj_footer?.endRefreshingWithNoMoreData()
@@ -98,22 +108,31 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
         self.myPage += 1
-        
+        print("ASListViewController loadMoreData - case 2 after myEntryArray : \(self.myEntryArray.count) ")
         
         if isLoadMore {
             var aIndexArray: [IndexPath] = []
             for aInt in (0..<aNewCount).reversed() {
                 let aNum = self.myEntryArray.count - aInt - 1
-                print("aaaa \(aNum)")
                 let aIndex = IndexPath(row: aNum, section: self.kTopAppSection)
                 aIndexArray.append(aIndex)
             }
             
-            self.myASListView.myTableView.beginUpdates()
-            self.myASListView.myTableView.insertRows(at: aIndexArray, with: .fade)
-            self.myASListView.myTableView.endUpdates()
+            if aIndexArray.count > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    print("ASListViewController loadMoreData - case 3 after insertRows")
+                    self.myASListView.myTableView.beginUpdates()
+                    self.myASListView.myTableView.insertRows(at: aIndexArray, with: .right)
+                    self.myASListView.myTableView.endUpdates()
+                    self.myASListView.myTableView.mj_footer?.endRefreshing()
+                    self.isLoadingMore = false
+                }
+            }
         } else {
-            self.myASListView.myTableView.reloadData()
+            print("ASListViewController loadMoreData - case 4 after insertRows")
+            self.reloadTable()
+            self.myASListView.myTableView.mj_header?.endRefreshing()
+            self.isLoadingMore = false
         }
     }
     
@@ -133,7 +152,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                                             repeats:false)
     }
     
-    
     // MARK: - Button Event
     
     @objc func headerRefresh() {
@@ -142,8 +160,6 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.myEntryArray.removeAll()
         Thread.sleep(forTimeInterval: 0.2)
         self.loadMoreData(isLoadMore: false)
-        let aTableView = self.myASListView.myTableView
-        aTableView.mj_header?.endRefreshing()
     }
     
     @objc func footerRefresh() {
@@ -151,15 +167,14 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
 
         Thread.sleep(forTimeInterval: 0.2)
         self.loadMoreData(isLoadMore: true)
-        let aTableView = self.myASListView.myTableView
-        aTableView.mj_footer?.endRefreshing()
     }
     
     @objc func textFieldDidChange(textField: UITextField){
         print("ASListViewController textFieldDidChange - text : \(String(describing: textField.text))")
-        self.startTimer()
         self.isFilterMode = textField.text != ""
         self.myASListView.myTableView.mj_footer?.isHidden = self.isFilterMode
+        self.startTimer()
+        
     }
     
     @objc func textFieldSearch() {
@@ -176,8 +191,22 @@ class ASListViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     self.myFilterEntryArray.append(aEntry)
                 }
             }
+            
+            if self.myLastOffset == .zero {
+                self.myLastOffset = self.myASListView.myTableView.contentOffset
+            }
         }
+        
+            
         self.reloadTable()
+        
+        // Move Offset
+        if self.isFilterMode {
+            self.myASListView.myTableView.setContentOffset(.zero, animated: false)
+        } else {
+            self.myASListView.myTableView.setContentOffset(self.myLastOffset, animated: false)
+            self.myLastOffset = .zero
+        }
     }
     
     // MARK: - Call API

@@ -55,6 +55,8 @@ class ASListView: UIView {
         self.myTableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.className)
         self.myTableView.register(ASCollectionTableViewCell.self, forCellReuseIdentifier: ASCollectionTableViewCell.className)
         self.myTableView.register(ASTopAppTableViewCell.self, forCellReuseIdentifier: ASTopAppTableViewCell.className)
+        self.myTableView.showsHorizontalScrollIndicator = false
+        self.myTableView.showsVerticalScrollIndicator = false 
         
         self.myTableView.keyboardDismissMode = .onDrag
         self.myTableView.separatorStyle = .none

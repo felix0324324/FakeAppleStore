@@ -27,14 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        self.window!.rootViewController = MainViewController.init()
        self.window!.makeKeyAndVisible()
     }
-    
-//    func goToVC() {
-//        let aMainViewController = MainViewController()
-//        aMainViewController.view.backgroundColor = .purple
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-//            NavManager.getRootNav()?.pushViewController(aMainViewController, animated: false)
-//        })
-//    }
 }
 
 
